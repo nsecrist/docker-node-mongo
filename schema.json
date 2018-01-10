@@ -1,0 +1,223 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "id": "http://yourdomain.com/schemas/pin.json",
+
+    "definitions": {
+        "person": {
+            "type": "object",
+            "properties": {
+                "firstName": {
+                    "type": "string"
+                },
+                "lastName": {
+                    "type": "string"
+                },
+                "middleName": {
+                    "type": "string"
+                },
+                "emailAddress": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "role": {
+                    "description": "The role of this Person",
+                    "type": "string",
+                    "enum": ["Employee", "Manager", "Process Advisor", "Supervisor", null]
+                }
+            }
+        }
+    },
+
+    "title": "Performance Improvement Notice",
+    "type": "object",
+    "properties": {
+        "pinNumber": {
+            "description": "Unique ID of a PIN",
+            "type": "integer"
+        },
+        "currentState": {
+            "description": "The current state of the PIN",
+            "type": "string",
+            "enum": [
+                null,
+                "Initiation",
+                "Management",
+                "Resolution",
+                "Verification",
+                "Closed"
+            ]
+        },
+        "initiation": {
+            "type": "object",
+            "properties": {
+                "pinType": {
+                    "description": "Enum of valid PIN Types",
+                    "type": "string",
+                    "enum": [
+                        "Safety",
+                        "Other",
+                        "Quality"
+                    ]
+                },
+                "actionType": {
+                    "description": "Enum of valid PIN Actions",
+                    "type": "string",
+                    "enum": [
+                        "Continual Improvement",
+                        "Corrective",
+                        "Ergonomic",
+                        "Other",
+                        "Positive Feedback",
+                        "Preventative"
+                    ]
+                },
+                "recurring": {
+                    "description": "Denotes if this is a recurring PIN",
+                    "type": "boolean"
+                },
+                "source": {
+                    "description": "Enum of valid PIN Sources",
+                    "type": "string",
+                    "enum": [
+                        "Customer",
+                        "Employee Observation",
+                        "External Audit",
+                        "Incident Investigation",
+                        "Internal Audit",
+                        "Management Review",
+                        "Other",
+                        "Safety Walkthrough",
+                        "SER",
+                        "Supplier Issue"
+                    ]
+                },
+                "initiator": {
+                    "description": "Details about the Initiator",
+                    "$ref": "#/definitions/person"
+                },
+                "dateInitiated": {
+                    "description": "When the PIN was initiated",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "pinSummary": {
+                    "description": "Summary of PIN",
+                    "type": "string",
+                    "maxLength": 256
+                },
+                "pinDescription": {
+                    "description": "Description of PIN",
+                    "type": "string"
+                },
+                "location": {
+                    "description": "Campus Location of PIN",
+                    "type": "string",
+                    "enum": [
+                        "AEDC",
+                        "AMS",
+                        "Ann Arbor",
+                        "Bingham Farms",
+                        "Cape Canaveral",
+                        "CAPPS",
+                        "Carlsbad",
+                        "Chrysler",
+                        "Construction Sites",
+                        "DDC",
+                        "DTF",
+                        "ECS",
+                        "EMC",
+                        "EPA-NVFEL",
+                        "EPA-RLS",
+                        "GMPT",
+                        "Honda",
+                        "LGTF",
+                        "MMS/Lansing",
+                        "Munich",
+                        "NIF",
+                        "Other",
+                        "Portsmouth",
+                        "SanDiego",
+                        "Southfield",
+                        "TFOME",
+                        "TSS",
+                        "Tullahoma - IHO",
+                        "Tullahoma - Tech Group",
+                        "VCWT",
+                        "WSI"
+                    ]
+                },
+                "responsibleSupervisor": {
+                    "description": "Details about the responsible Supervisor",
+                    "$ref": "#/definitions/person"
+                },
+                "sendResolutionEmail": {
+                    "description": "Denotes whether a resolved email should be sent to initiator",
+                    "type": "boolean"
+                }
+            }
+        },
+        "management": {
+            "type": "object",
+            "properties": {
+                "assignedIndividual": {
+                    "description": "Details about the Assigned Individual",
+                    "$ref": "#/definitions/person"
+                },
+                "verifier": {
+                    "description": "Details about the Verifier",
+                    "$ref": "#/definitions/person"
+                },
+                "targetClosureDate": {
+                    "description": "The target date for PIN to be closed",
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "assignedDate": {
+                    "description": "The date this PIN was assigned",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "resolution": {
+            "type": "object",
+            "properties": {
+                "rootCause": {
+                    "description": "The root cause of the issue this PIN was submit for",
+                    "type": "string"
+                },
+                "resolutionTaken": {
+                    "description": "Description of the steps taken to correct the problem",
+                    "type": "string"
+                },
+                "implementationDate": {
+                    "description": "The date the resolution was implemented",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "verification": {
+            "type": "object",
+            "properties": {
+                "resolutionComplete": {
+                    "description": "Resolution has been completed",
+                    "type": "boolean"
+                },
+                "resolutionEffective": {
+                    "description": "The resolution is effective at resolving the PIN",
+                    "type": "boolean"
+                },
+                "verificationDescription": {
+                    "description": "Description of how the resolution was verified",
+                    "type": "string"
+                },
+                "completionDate": {
+                    "description": "Date the PIN was completed",
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        }
+    }
+}
